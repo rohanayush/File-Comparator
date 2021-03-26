@@ -1,0 +1,127 @@
+<div class="row topbar">
+  <div class="col-md-3"></div>
+  <div class="col-md-1"></div>
+
+  <div class="col-md-3">
+    <h1 class="h2pos">File Vishleshan</h1>
+  </div>
+  <div class="col-md-3"></div>
+  <div class="col-md-2"></div>
+</div>
+  
+  <div class="frm">
+    <h3 style="color:teal"><i>Please choose two files for comparison</i></h3><br>
+      <form class="frm" [formGroup] = "uploadForm" (ngSubmit)="onSubmit()">      
+        <div>
+          <input id="path_files" type="file" name="profile"  (change)="onFileSelect($event)" multiple />
+        </div>
+        <div style="color:red;padding:8px;">
+          {{msg}}
+      </div>
+        <div *ngIf="btn_state">
+          <button class="btn btn-info"type="submit" >Compare</button>
+        </div>
+      </form>
+    </div>
+  
+    <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Assist</h5>
+          <button class="btn btn-danger" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>{{msg}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    <div class="cover-plate" *ngIf="column_arr.length >0">
+      <h2 class="tabh"><span style="color:">{{file1}}</span> and <span style="color:">{{file2}}</span> are being compared</h2> 
+     <hr> <h2 style="padding:15px">Select the primary key/s</h2>
+        <div class="row" >
+           <div class="col-md-4" *ngFor="let i of column_arr; let ii=index">
+             <input type="checkbox" class="checkbox" 
+             (click)="makeCheckArray(ii)"> {{i}}</div>
+        </div>
+        <div style="color:teal;padding:8px;font-weight: bolder;" *ngIf="btn_array.length===0 && anMsg.length>0">{{anMsg}}</div>
+        <button class="btn btn-secondary" (click)="showArray()">Proceed</button>
+      </div>
+  
+    <div #htmlData id="htmlData"  class="result"  *ngIf="strr.length>0">
+      <pre   class="pree"   [innerHTML]="highlight()"> 
+      
+  
+    </pre>    
+    </div>
+    <!-- <div>  
+      <input type="button" value="CPTURE" (click)="captureScreen()"/>  
+    </div>  -->
+    <div  class="result" *ngIf="allDataArr.length >0">
+      
+      <div  *ngFor="let res of allDataArr;let i=index">
+        <div  class="tab" *ngIf="i==0">Columns in source dataframe : {{res}}</div>
+        
+        <div class="tab" *ngIf="i==1">Columns in  target dataframe : {{res}}</div>
+        
+        <div class="tab" *ngIf="i==2">Common between dataframes shown as True 
+              <table class="styled-table">
+                <thead>
+                <th style="background-color:teal;color:white" *ngFor="let o of keys">{{o}}</th> </thead>  
+                <tbody>        
+             <tr class="active-row" *ngFor="let acd of makeArray(cnt); let t=index">
+             <td *ngFor="let ac of makeArray(allDataArr[0]);let yy=index" >
+              {{res[keys[yy]][t]}}
+            </td>
+          </tr>
+          </tbody>
+  </table>          
+        </div>
+        
+        <div class="tab" *ngIf="i==3">Actual values showing differences in dataframes 
+          <table class="styled-table">
+            <thead>
+            <th style="background-color:teal;color:white" *ngFor="let o of keys_1">{{o}}</th> </thead>  
+            <tbody>        
+         <tr class="active-row"*ngFor="let acd of makeArray(cnt+1); let t=index">
+         <td *ngFor="let ac of makeArray(keys_1.length);let yy=index" >
+          {{res[keys_1[yy]][t]}}
+        </td>
+      </tr>
+            </tbody>
+  </table>
+        </div>
+        
+        <div class="tab" *ngIf="i==4">
+          Common values in the "Country" column between the two dataframes
+          <ul *ngFor="let o of res">
+            <li class="tab1">{{o}}</li>
+  
+          </ul>
+        </div>
+        <div class="tab" *ngIf="i==5">
+          Total common values between the two dataframes : {{res}}
+        </div>
+        <div class="tab" *ngIf="i==6">
+          Total different values between the two dataframes : {{res}}
+        </div>
+  
+  
+      </div>
+  
+    </div>
+    <div *ngIf="colData.length ===0"class="loader"></div>
+    <div>
+    <div *ngIf="!loader"class="loader"></div>
+  </div>
+  
+  
+  
